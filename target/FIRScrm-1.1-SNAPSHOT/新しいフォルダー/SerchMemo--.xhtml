@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+<title>メモ検索</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</h:head>
+<h:body>
+<ui:decorate template="ComMenu.xhtml">
+</ui:decorate>
+<!-- 本体  -->
+<div class="container">
+<!-- <div class="row">
+        <div class="col-lg-12 hidden-xs hidden-sm hidden-md core">.col-lg-12 </div>
+        <div class="col-md-12 hidden-xs hidden-sm hidden-lg core">.col-md-12 </div>
+        <div class="col-sm-12 hidden-xs hidden-md hidden-lg core">.col-sm-12 </div>
+        <div class="col-xs-12 hidden-sm hidden-md hidden-lg core">.col-xs-12 </div>
+      </div> -->
+      <h:form   id="SerchMemo_Condition" class="form-horizontal">
+      <!-- 1段目 -->
+      <div class="form-group">
+        <!-- 日付 from -->
+        <label  for="companyinfo-list-label"  class="col-xs-3 col-sm-2 control-label text-right">日付</label>
+        <div class="col-xs-9 col-sm-4 controls">
+          <h:inputText  class="form-control datepicker" id="date_from" title="YYYY/MM/DD形式で入力" value="#{serchMemoBean.dateFrom}"/>
+          <h:messages for="date_from" id="date_from_VMsg" style="color: red" title="入力エラー"/>
+        </div>
+        <label  for="companyinfo-list-label"  class="col-xs-3 hidden-sm hidden-md hidden-lg control-label"><p class="text-center"/></label>
+        <label  for="companyinfo-list-label"  class="hidden-xs col-sm-2 control-label"><p class="text-center">～</p></label>
+        <div class="col-xs-9 col-sm-4 controls">   
+          <h:inputText  class="form-control datepicker" id="date_to" title="YYYY/MM/DD形式で入力" value="#{serchMemoBean.dateTo}"/>
+          <h:messages for="date_to" id="date_to_VMsg" style="color: red" title="入力エラー"/>
+        </div>
+      </div> <!-- /div form-group 1段目 -->
+      <!-- 2段目 -->
+      <div class="form-group">
+        <!-- 担当者１ -->
+        <label for="StockCode" class="hidden-xs col-sm-2 control-label text-right">証券コード：</label>
+        <label for="StockCode" class="col-xs-3 hidden-sm hidden-md hidden-lg control-label text-right">証券No：</label>
+        <div class="col-xs-9 col-sm-4">
+          <h:inputText  class="form-control" id="StockCode" title="証券コード" value="#{serchMemoBean.stockCode}"/>
+          <h:messages for="StockCode" id="StockCode_VMsg" style="color: red" title="入力エラー"/>
+        </div>
+        <!-- 担当者２-->
+        <label for="charge_In_person2" class="col-xs-3 col-sm-2 control-label text-right">記入者：</label>
+        <div class="col-xs-9 col-sm-4">
+          <h:inputText  class="form-control" id="charge_In_person1" title="メモの記入者の氏名を入力" value="#{serchMemoBean.chargeInPerson1}"/>
+          <h:messages for="charge_In_person1" id="charge_In_person1_VMsg" style="color: red" title="入力エラー"/>
+        </div>
+      </div> <!-- /div form-group 2段目 -->
+      <!-- 3段目 -->
+      <div class="form-group">
+       <!--  タグ１-->
+       <!--              <label for="companyinfo-list-label" class="col-xs-3 col-sm-2 control-label text-right">タグ１：</label> -->
+       <label for="companyinfo-list-label" class="col-xs-3 col-sm-2 control-label text-right">#{dispItemPropaty.lbl_tag1}：</label>
+       <div class="col-xs-9 col-sm-4">
+        <h:selectOneListbox size="1" value="#{serchMemoBean.memoTag1}" class="form-control" id="mamotag1">
+        <f:selectItem itemValue="" itemLabel="選択して下さい" />
+        <c:forEach var="obj" items="#{serchMemoBean.selSmtgItemList.memoTag1}" >
+        <f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}"/>
+      </c:forEach>
+    </h:selectOneListbox>
+    <h:messages for="mamotag1" id="mamotag1_VMsg" style="color: red" title="入力エラー"/>
+  </div> <!-- /div DLリストのやつ -->
+  <!--  タグ２ -->
+  <!--              <label for="companyinfo-list-label" class="col-xs-3 col-sm-2 control-label text-right">タグ２：</label> -->
+  <label for="companyinfo-list-label" class="col-xs-3 col-sm-2 control-label text-right">#{dispItemPropaty.lbl_tag2}：</label>
+  <div class="col-xs-9 col-sm-4">
+    <h:selectOneListbox size="1" value="#{serchMemoBean.memoTag2}" class="form-control" id="mamotag2">
+    <f:selectItem itemValue="" itemLabel="選択して下さい" />
+    <c:forEach var="obj" items="#{serchMemoBean.selSmtgItemList.memoTag2}" >
+    <f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}"/>
+  </c:forEach>
+</h:selectOneListbox>
+<h:messages for="mamotag2" id="mamotag2_VMsg" style="color: red" title="入力エラー"/>
+</div> <!-- /div DLリストのやつ -->
+</div> <!-- /div form-group -->
+<!-- 4段目 -->
+<div class="form-group">
+ <!--  タグ３ -->
+ <!--              <label for="companyinfo-list-label" class="col-xs-3 col-sm-2 control-label text-right">タグ３：</label> -->
+ <label for="companyinfo-list-label" class="col-xs-3 col-sm-2 control-label text-right">#{dispItemPropaty.lbl_tag3}：</label>
+ <div class="col-xs-9 col-sm-4">
+  <h:selectOneListbox size="1" value="#{serchMemoBean.memoTag3}" class="form-control" id="mamotag3">
+  <f:selectItem itemValue="" itemLabel="選択して下さい" />
+  <c:forEach var="obj" items="#{serchMemoBean.selSmtgItemList.memoTag3}" >
+  <c:choose>
+  <c:when test="#{obj.value=='0200'}"><f:selectItem itemValue="" itemLabel="--------------------"/></c:when>
+  <c:when test="#{obj.value=='1950'}"><f:selectItem itemValue="" itemLabel="--------------------"/></c:when>
+</c:choose>
+<f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}"/>
+</c:forEach>
+</h:selectOneListbox>
+<h:messages for="mamotag3" id="mamotag3_VMsg" style="color: red" title="入力エラー"/>
+</div> <!-- /div DLリストのやつ -->
+<!--  ステータスやめて、上場市場-->
+<!--
+              <label for="companyinfo-list-label" class="col-xs-2 col-sm-2 control-label text-right">ステータス：</label>
+              <div class="col-xs-10 col-sm-4">
+                  <h:selectOneListbox size="1" value="#{serchMemoBean.memoStat}" class="form-control">
+                      <f:selectItem itemValue="" itemLabel="選択して下さい" />
+                      <c:forEach var="obj" items="#{serchMemoBean.selSmtgItemList.memoStatus}" >
+                          <f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}"/>
+                      </c:forEach>
+                  </h:selectOneListbox>
+                -->
+                <label for="companyinfo-list-label" class="col-xs-3 col-sm-2 control-label text-right">上場市場：</label>
+                <div class="col-xs-9 col-sm-4">
+                  <h:selectOneListbox size="1" value="#{serchMemoBean.market}" class="form-control" id="market">
+                  <f:selectItem itemValue="" itemLabel="選択して下さい" />
+                  <c:forEach var="obj" items="#{serchCompBean.selItemList.market}" >
+                  <f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}"/>
+                </c:forEach>
+              </h:selectOneListbox>
+              <h:messages for="market" id="market_VMsg" style="color: red" title="入力エラー"/>
+            </div> <!-- /div DLリストのやつ -->
+          </div> <!-- /div form-group 4段目 -->
+          <!-- 5段目  -->
+          <div class="form-group">
+           <!-- メモID -->
+           <label for="memoID" class="col-xs-3 col-sm-2 control-label text-right">メモID：</label>
+           <div class="col-xs-9 col-sm-4">
+             <h:inputText class="form-control" id="memoID" title="メモIDを入力" value="#{serchMemoBean.memoID}"/>
+             <h:messages for="memoID" id="memoID_VMsg" style="color: red" title="入力エラー"/>
+           </div>
+         </div><!-- /div form-group 5段目 -->
+         <!-- 6段目 -->
+         <div class="form-group">
+           <!-- メールに付けた　タイトル -->
+           <label for="memo_title" class="col-xs-3 col-sm-2 control-label text-right">タイトル：</label>
+           <div class="col-xs-9 col-sm-10">
+            <h:inputText  class="form-control" id="memo_title" title="メモに付けたタイトルを入力" value="#{serchMemoBean.memoTitle}"/>
+            <h:messages for="memo_title" id="memo_title_VMsg" style="color: red" title="入力エラー"/>
+          </div>
+        </div> <!-- /div form-group 6段目 -->
+        <!-- 7段目 -->
+        <div class="form-group">
+         <!-- 検索ボタン -->
+         <div class="col-xs-8"></div>
+         <div class="col-xs-4" align="right">
+          <h:commandButton type="submit" class="btn btn-primary" id="serchMemobtn" value="検索" action="#{serchMemoBean.SerchMemo()}"/>
+          <h:messages for="serchMemobtn" id="serchMemobtn_VMsg" style="color: red" title="検索エラー"/>
+        </div>
+      </div> <!-- /div form-group 7段目 -->
+    </h:form>
+    <!-- 検索条件と結果の仕切り -->
+    <hr></hr>
+
+    <h:form  id="SerchMemoList" class="table-responsive">
+    <div class="form-group">
+      <div class="col-xs-12">
+        <h:commandLink id ="backList" value="戻る  " action="#{serchMemoBean.backList()}" disabled="#{serchMemoBean.backList}"></h:commandLink>
+        <h:outputText value="検索結果：#{serchMemoBean.nowListIndex} / #{serchMemoBean.dsp_SerchMemoNum} 件"/>
+        <h:commandLink id ="nextList" value="  次へ" action="#{serchMemoBean.nextList()}" disabled="#{serchMemoBean.nextList}"></h:commandLink>
+      </div>
+    </div>
+
+    <h:dataTable class="table table-striped table-borderd table-hober" id="srhMemoTable" value="#{serchMemoBean.memoViewList}" var="memos">
+    <h:column>
+    <f:facet name="header">メモID</f:facet>
+    <div id="accordion"  action="#{serchMemoBean.goMemoDetail(memos.memoId,true)}">
+    <a data-toggle="collapse" data-parent="accordion" href="#collapse" > #{memos.memoId}</a>
+    <div id="collapse" class="collapse">
+
+      <div class="container"><h:form class="form-horizontal">
+      <!-- 1段目-->
+      <div class="form-group">
+        <label for="companyinfo-list-label"
+        class="col-xs-3 col-sm-2 control-label text-right">メモID：</label>
+        <div class="col-xs-9 col-sm-5 controls">
+          <h:inputText class="form-control" id="MemoID"
+          value="#{memoDetailBean.editMemo.memoId}" readonly="true" />
+        </div>
+      </div>
+      <!-- 2段目 -->
+      <div class="form-group">
+        <!-- 訪問先　企業名 Company Name-->
+        <label for="companyinfo-list-label"
+        class="hidden-xs col-sm-2 control-label text-right">訪問先企業：</label>
+        <label for="companyinfo-list-label"
+        class="col-xs-3 hidden-sm hidden-md hidden-lg control-label text-right">訪問企業：</label>
+        <div class="col-xs-9 col-sm-8 controls">
+          <h:inputText class="form-control" id="CompanyName"
+          value="#{memoDetailBean.editMemo.brandNm}『#{memoDetailBean.editMemo.stockCode}』"
+          readonly="true" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="companyinfo-list-label"
+        class="hidden-xs col-sm-2 control-label text-right">訪問先部署：</label>
+        <label for="companyinfo-list-label"
+        class="col-xs-3 hidden-sm hidden-md hidden-lg control-label text-right">訪問部署：</label>
+        <div class="col-xs-9 col-sm-4 controls">
+          <h:inputText class="form-control" id="PostName"
+          value="#{memoDetailBean.editMemo.postNm}"
+          readonly="#{memoDetailBean.readOnly}" />
+        </div>
+        <label for="companyinfo-list-label"
+        class="hidden-xs col-sm-2 control-label text-right">訪問先担当者：</label>
+        <label for="companyinfo-list-label"
+        class="col-xs-3 hidden-sm hidden-md hidden-lg control-label text-right">担当者様：</label>
+        <div class="col-xs-9 col-sm-4 controls">
+          <h:inputText class="form-control" id="PersonName"
+          value="#{memoDetailBean.editMemo.personNm}"
+          readonly="#{memoDetailBean.readOnly}" />
+        </div>
+      </div>
+      <!-- /form-group -->
+      <!-- 4段目-->
+      <div class="form-group">
+        <!-- 訪問日 From-->
+        <label for="companyinfo-list-label"
+        class="col-xs-3 col-sm-2 control-label text-right">訪問日：</label>
+        <div class="col-xs-4 col-sm-4 controls">
+          <h:inputText class="form-control datepicker" id="date_from"
+          title="YYYY/MM/DD形式で入力"
+          value="#{memoDetailBean.editMemo.startDate}"
+          readonly="#{memoDetailBean.readOnly}">
+          <f:convertDateTime pattern="yyyy/MM/dd" timeZone="JST" />
+        </h:inputText>
+      </div>
+      <!-- 訪問日 to -->
+      <label for="companyinfo-list-label"
+      class="col-xs-1 col-sm-2 control-label"><p
+      class="text-center">～</p></label>
+      <div class="col-xs-4 col-sm-4 controls">
+        <h:inputText class="form-control datepicker" id="date_to"
+        title="YYYY/MM/DD形式で入力" value="#{memoDetailBean.editMemo.endDate}"
+        readonly="#{memoDetailBean.readOnly}">
+        <f:convertDateTime pattern="yyyy/MM/dd" timeZone="JST" />
+      </h:inputText>
+    </div>
+  </div>
+  <!-- /form-group 2段目 -->
+  <!-- 3段目-->
+  <div class="form-group">
+    <!-- 時刻 From-->
+    <label for="companyinfo-list-label"
+    class="col-xs-3 col-sm-2 control-label text-right">訪問時刻：</label>
+    <div class="col-xs-4 col-sm-4 controls">
+      <h:inputText class="form-control time" id="time_from"
+      value="#{memoDetailBean.editMemo.startTime}"
+      readonly="#{memoDetailBean.readOnly}" />
+      <h:message for="time_from" id="timefError" style="color: red"
+      title="訪問時刻（From)入力チェック" />
+    </div>
+    <!-- 時刻 to -->
+    <label for="companyinfo-list-label"
+    class="col-xs-1 col-sm-2 control-label"><p
+    class="text-center">～</p></label>
+    <div class="col-xs-4 col-sm-4 controls">
+      <h:inputText class="form-control time" id="time_to"
+      value="#{memoDetailBean.editMemo.endTime}"
+      readonly="#{memoDetailBean.readOnly}" />
+      <h:message for="time_to" id="timetError" style="color: red"
+      title="訪問時刻（to）入力チェック" />
+    </div>
+  </div>
+  <!-- /form-group 3段目 -->
+
+  <!-- 4段目-->
+  <div class="form-group">
+    <!-- タグ1-->
+    <!--                    <label for="companyinfo-list-label" class="col-xs-3 col-sm-2 control-label text-right">タグ1：</label>  -->
+    <label for="companyinfo-list-label"
+    class="col-xs-3 col-sm-2 control-label text-right">#{dispItemPropaty.lbl_tag1}：</label>
+    <div class="col-xs-9 col-sm-2">
+      <h:selectOneListbox size="1"
+      value="#{memoDetailBean.editMemo.tag1_val}" class="form-control"
+      disabled="#{memoDetailBean.readOnly}">
+      <f:selectItem itemValue="" itemLabel="" />
+      <c:forEach var="obj"
+      items="#{companyDetailBean.selMemoItems.memoTag1}">
+      <f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}" />
+    </c:forEach>
+  </h:selectOneListbox>
+</div>
+<!-- タグ2-->
+<!--                    <label for="companyinfo-list-label" class="col-xs-3 col-sm-1 control-label text-right">2：</label>  -->
+<label for="companyinfo-list-label"
+class="col-xs-3 col-sm-1 control-label text-right">#{dispItemPropaty.lbl_tag2}：</label>
+<div class="col-xs-9 col-sm-2">
+  <h:selectOneListbox size="1"
+  value="#{memoDetailBean.editMemo.tag2_val}" class="form-control"
+  disabled="#{memoDetailBean.readOnly}">
+  <f:selectItem itemValue="" itemLabel="" />
+  <c:forEach var="obj"
+  items="#{companyDetailBean.selMemoItems.memoTag2}">
+  <f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}" />
+</c:forEach>
+</h:selectOneListbox>
+</div>
+<!-- タグ3-->
+<!--                    <label for="companyinfo-list-label" class="col-xs-3 col-sm-1 control-label text-right">3：</label>      -->
+<label for="companyinfo-list-label"
+class="col-xs-3 col-sm-1 control-label text-right">#{dispItemPropaty.lbl_tag3}：</label>
+<div class="col-xs-9 col-sm-2">
+  <h:selectOneListbox size="1"
+  value="#{memoDetailBean.editMemo.tag3_val}" class="form-control"
+  disabled="#{memoDetailBean.readOnly}">
+  <f:selectItem itemValue="" itemLabel="" />
+  <c:forEach var="obj"
+  items="#{companyDetailBean.selMemoItems.memoTag3}">
+  <c:choose>
+  <c:when test="#{obj.value=='0200'}">
+  <f:selectItem itemValue="" itemLabel="--------------------" />
+</c:when>
+<c:when test="#{obj.value=='1950'}">
+<f:selectItem itemValue="" itemLabel="--------------------" />
+</c:when>
+</c:choose>
+<f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}" />
+</c:forEach>
+</h:selectOneListbox>
+</div>
+</div>
+<!-- /form-group 4段目 -->
+<!-- 5段目-->
+<div class="form-group">
+  <!-- タイトル-->
+  <label for="memoTitle"
+  class="col-xs-3 col-sm-2 control-label text-right">タイトル：</label>
+  <div class="col-xs-9 col-sm-10 controls">
+    <h:inputText class="form-control" id="memoTitle"
+    value="#{memoDetailBean.editMemo.title}"
+    readonly="#{memoDetailBean.readOnly}" />
+  </div>
+</div>
+<!-- /form-group 5段目 -->
+<!-- 6段目-->
+<div class="form-group">
+  <!-- メモ-->
+  <label for="memo" class="col-xs-3 col-sm-2 control-label text-right">内容：</label>
+  <div class="col-xs-9 col-sm-10 controls">
+    <h:inputTextarea class="form-control" rows="10" cols="10" id="memo"
+    value="#{memoDetailBean.editMemo.memo}"
+    readonly="#{memoDetailBean.readOnly}" />
+  </div>
+</div>
+<!-- /form-group 6段目 -->
+<!-- 7段目 -->
+<div class="form-group">
+  <label for="RenewalDate"
+  class="col-xs-3 col-sm-2 control-label text-right">更新日：</label>
+  <div class="col-xs-9 col-sm-4 controls">
+    <h:inputText class="form-control" id="RenewalDate"
+    value="#{memoDetailBean.editMemo.renewalDateTime}" readonly="true">
+    <f:convertDateTime pattern="yyyy/MM/dd hh:mm:ss" timeZone="JST" />
+  </h:inputText>
+</div>
+<label for="RenewalUser"
+class="col-xs-3 col-sm-2 control-label text-right">更新者：</label>
+<div class="col-xs-9 col-sm-4 controls">
+  <h:inputText class="form-control" id="RenewalUser"
+  value="#{memoDetailBean.editMemo.renewalUser}" readonly="true">
+  <f:convertDateTime pattern="yyyy/MM/dd" timeZone="JST" />
+</h:inputText>
+</div>
+</div>
+<!-- /form-group 7段目 -->
+<!-- 8段目 -->
+<div class="form-group">
+  <!-- 編集／削除　ボタン-->
+  <div class="col-xs-3 col-sm-2" align="left"></div>
+  <div class="col-xs-6 col-sm-7" align="left">
+    <h:commandButton type="submit" id="deleteMemo"
+    class="btn btn-success" rendered="#{memoDetailBean.viewEditbtn}"
+    value="編集" action="#{memoDetailBean.changeEditMode()}" />
+    <h:commandButton type="submit" id="editMemo" class="btn btn-danger"
+    rendered="#{memoDetailBean.viewDelbtn}" value="削除"
+    action="#{memoDetailBean.memoDel()}" />
+    <h:commandButton type="submit" id="reMemo" class="btn btn-warning"
+    rendered="#{memoDetailBean.viewReMemobtn}" value="メモ内容をコピーして新規"
+    action="#{memoDetailBean.memoRe()}" />
+  </div>
+  <!-- <label  for="companyinfo-list-label"  class="col-xs-2 hidden-sm hidden-md hidden-lg control-label"><p class="text-center"/></label> -->
+  <div class="col-xs-3 col-sm-3" align="right">
+    <h:commandButton type="submit" id="updateMemo"
+    class="btn btn-success" rendered="#{memoDetailBean.viewUpdatebtn}"
+    value="#{memoDetailBean.labelUpdatebtn}"
+    action="#{memoDetailBean.Update()}" />
+    
+  </div>
+</div>
+<!-- /form-group 8段目 -->
+<script type="text/javascript">
+  $(document).ready( function(){
+    if( #{memoDetailBean.updateed}==true){
+      alert('#{memoDetailBean.updateMsg}');
+    }
+  });
+
+</script>
+
+</h:form></div></div></div>
+</h:column>
+<h:column><f:facet name="header">企業名</f:facet><h:outputText value="#{memos.brandNm}"/></h:column>
+<h:column><f:facet name="header">日付 from</f:facet><h:outputText  value="#{memos.startDate}"><f:convertDateTime pattern="yyyy/MM/dd" timeZone="JST"/></h:outputText></h:column>
+<h:column><f:facet name="header">日付 to</f:facet><h:outputText  value="#{memos.endDate}"><f:convertDateTime pattern="yyyy/MM/dd" timeZone="JST"/></h:outputText></h:column>
+<h:column><f:facet name="header">記入者</f:facet><h:outputText  value="#{memos.userId}"/></h:column>
+<!--                <h:column><f:facet name="header">タグ１</f:facet><h:outputText  value="#{memos.tag1}"/></h:column>  -->
+<!--                <h:column><f:facet name="header">タグ２</f:facet><h:outputText  value="#{memos.tag2}"/></h:column>  -->
+<!--                <h:column><f:facet name="header">タグ３</f:facet><h:outputText  value="#{memos.tag3}"/></h:column>  -->
+<h:column><f:facet name="header">#{dispItemPropaty.lbl_tag1}</f:facet><h:outputText  value="#{memos.tag1}"/></h:column>
+<h:column><f:facet name="header">#{dispItemPropaty.lbl_tag2}</f:facet><h:outputText  value="#{memos.tag2}"/></h:column>
+<h:column><f:facet name="header">#{dispItemPropaty.lbl_tag3}</f:facet><h:outputText  value="#{memos.tag3}"/></h:column>
+<!--                <h:column><f:facet name="header">ステータス</f:facet><h:outputText  value="#{memos.status}"/></h:column> -->
+<h:column><f:facet name="header">タイトル</f:facet><h:outputText value="#{memos.title}"/></h:column>
+<h:column><f:facet name="header">メモ（見出し）</f:facet><h:outputText value=""/>#{memos.memoSt}</h:column>
+</h:dataTable>
+</h:form>
+<h:form  id="SerchMemo_memo" class="form-horizontal">
+<!-- 7段目 -->
+<div class="form-group">
+ <!-- 検索ボタン -->
+ <div class="col-xs-4"><a href="#SerchMemo_Condition" >ページTopへ</a></div>
+ <div class="col-xs-4" align="right"></div>
+ <div class="col-xs-4" align="right">
+  <h:commandButton type="submit" class="btn btn-default" value="戻る" action="#{serchMemoBean.back()}"/>
+</div>
+</div> <!-- /div form-group 7段目 -->
+
+</h:form>
+</div>
+</h:body>
+</html>

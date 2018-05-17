@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <h:outputStylesheet name="bootstrap/css/bootstrap.min.css" />
+        <h:outputStylesheet name="bootstrap/css/bootstrap-theme.min.css" />
+        <h:outputStylesheet name="bootstrap/css/datepicker.css" />
+        <h:outputStylesheet name="jquery/css/jquery-ui.min.css" />
+        <h:outputStylesheet name="jquery/css/jquery-ui.structure.min.css" />
+        <h:outputStylesheet name="jquery/css/jquery-ui.theme.min.css" />
+        
+        <h:outputScript name="jquery/js/jquery.min.js" />
+        <h:outputScript name="jquery/js/jquery-ui.min.js" />
+        <h:outputScript name="bootstrap/js/bootstrap.min.js" />
+        <h:outputScript name="bootstrap/js/bootstrap-datepicker.js" />
+        <style type="text/css">
+            [class*="col-"]{ font-family: 'ヒラギノ角ゴシック Pro','ＭＳ Ｐゴシック'; font-size:9pt;}
+            body{ font-family: 'ヒラギノ角ゴシック Pro','ＭＳ Ｐゴシック'; font-size:9pt;}
+            nav{ font-family: 'ヒラギノ角ゴシック Pro','ＭＳ Ｐゴシック'; font-size:8pt;}
+        </style>
+        
+        <title>SCRM</title>
+    </h:head>
+    <h:body>
+        <!-- ヘッダー -->
+        <nav class="navbar navbar-inverse" role="navigation">
+           <div class="container">
+
+              <!-- モバイル表示用の省略メニュー -->
+              <div class="navbar-header">
+                  <a class="navbar-brand" href="#">FIR営業支援システム(メモ機能)</a>
+              </div>
+          </div><!-- /container -->
+        </nav><!-- /nav -->
+        <!-- メイン -->
+        <div class="container">
+        <div class="row">
+            <!-- スペーサー -->
+            <div class="col-xs-3"></div>
+            <div class="col-xs-7">
+                <h:outputText  rendered="#{loginBean.loginerr}" class="text-center text-warning" value="※　サインインに失敗！！　ログインＩＤまたはパスワードをご確認下さい。　※"/>
+            </div>
+            <div class="col-xs-2"></div>
+        </div> <!-- /row -->
+
+        
+        <!-- ログイン -->
+        <h:form  class="form-horizontal">
+            <!-- ログインＩＤ入力 -->
+            <div class="form-group">
+            <!-- スペーサー -->
+            <div class="col-xs-1 col-sm-1"></div>
+                <!-- ラベル 右寄せ-->
+                <label for="LoginID" class="col-xs-4 col-sm-3 control-label text-right">ログインＩＤ</label>
+                <!-- インプット -->
+                <div class="col-xs-7 col-sm-6">
+                    <h:inputText  class="form-control" id="LoginID" value="#{loginBean.loginID}" />
+                    <h:message for="LoginID" id="LoginIDError" style="color: red" title="ログインID入力チェック"/>
+                </div>
+                <!--  スペーサー -->
+                <div class="hidden-xs col-sm-2"></div>
+            </div> <!-- /form-group -->
+            <!-- パスワード入力 -->
+            <div class="form-group">
+                <!-- スペーサー -->
+                <div class="col-xs-1 col-sm-1"></div>
+                <!-- ラベル 右寄せ-->
+                <label for="PassWord" class="col-xs-4 col-sm-3 control-label text-right">パスワード</label>
+                <!-- インプット -->
+                <div class="col-xs-7 col-sm-6">
+                    <h:inputSecret class="form-control" id="passwd"  redisplay="true" value="#{loginBean.passwd}" />
+                    <h:message for="passwd" id="PasswdError" style="color: red" title="PW入力チェック"/>
+                </div>
+                <!-- スペーサー -->
+                <div class="hidden-xs col-sm-2"></div>
+            </div> <!-- /form-group -->
+
+            <!-- ログインの記録 -->
+            <div class="form-group">
+                <!-- スペーサー -->
+                <div class="col-xs-4 col-sm-4"></div>
+                <!-- チェック -->
+                <div class="col-xs-6 col-sm-6">
+                    <div class="checkbox">
+                        <!-- 
+                        <label>
+                            < type="checkbox" name="LoginSave">ログイン情報を記録</input>
+                        </label>
+                        -->
+                        <h:selectBooleanCheckbox value="#{loginBean.saveLoginId}"/>ログイン情報を記録
+                    </div>
+                </div>
+                <!-- スペーサー -->
+                <div class="col-xs-1 col-sm-1"></div>
+            </div> <!-- /form-group -->
+            <!-- Sing in ボタン -->
+            <div class="form-group">
+                <!-- スペーサー -->
+                <div class="col-xs-5"></div>
+                <!-- ボタン -->
+                <div class="col-xs-5" align="right">
+                    <h:commandButton type="submit" class="btn btn-info"  id="LoginBtn" value="ログイン"
+                                     action="#{loginBean.singin()}"
+                                     />
+                </div>
+                <!-- スペーサー -->
+                <div class="col-xs-2"></div>
+            </div> <!-- /form-group -->
+        </h:form>  <!-- /form -->
+    </div> <!-- /container -->
+    </h:body>
+</html>
+    

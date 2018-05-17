@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>企業詳細</title>
+    </h:head>
+    <h:body>
+        <ui:decorate template="ComMenu.xhtml">
+        </ui:decorate>
+        <!-- 本体  -->
+        <div class="container">
+ <!-- <div class="row">
+        <div class="col-lg-12 hidden-xs hidden-sm hidden-md core">.col-lg-12 </div>
+        <div class="col-md-12 hidden-xs hidden-sm hidden-lg core">.col-md-12 </div>
+        <div class="col-sm-12 hidden-xs hidden-md hidden-lg core">.col-sm-12 </div>
+        <div class="col-xs-12 hidden-sm hidden-md hidden-lg core">.col-xs-12 </div>
+</div> -->
+          <!--  <h3>List方式</h3> -->
+          <div class="list-group" id="accordion1">
+            <!--  ※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※-->
+            <!--                                  企業詳細部分                                                                                                                                                             -->
+            <!--  ※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※-->
+            <a data-toggle="collapse" data-parent="#accordion1" href="#collapse1" class="list-group-item list-group-item-info">
+<!--              『#{companyDetailBean.viewCompInfo.brand_nm}』　の企業情報 -->      <!--   加藤さん、渡辺さんからの指摘 実装は FIRなどから要望が上がった際  -->
+                企業情報
+            </a> <!-- /a collapse collapse1 -->
+            <div id="collapse1" class="collapse">
+              <div class="list-group-item">
+                  <h:form  id="CompanyDitaile" class="form-horizontal">
+                      
+                        <!-- fisco企業ページ -->
+                        <!-- javascriptは</body>の直前 -->
+                        <div id='info' class="form-group"></div>
+                        <!-- /div fisco企業ページ -->
+                        
+                        <!-- メモ最終更新日 -->
+                        <div class="form-group">
+                            <label for="LastUpdate" class="col-xs-4 col-sm-2 control-label text-right">メモ最終更新日：</label>
+                             <div class="col-xs-8 col-sm-3 controls">
+                                <h:inputText  class="form-control" id="LastUpdate" value="#{companyDetailBean.viewCompInfo.date_lastMemoUp}" readonly="true"  >
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="JST"/>
+                                </h:inputText>
+                            </div>
+<!--                            <label id="LastUpdate" class="col-xs-8 col-sm-10 control-label text-left   ">#{companyDetailBean.viewCompInfo.date_lastMemoUp}</label> -->
+                        </div>
+                    </h:form> <!-- /h:form -->
+              </div> <!-- /div  list-group-item -->
+            </div> <!-- /div id=collapse1 -->
+            <!--  ※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※-->
+            <!--                                  メモの検索部分                                                                                                                                                             -->
+            <!--  ※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※-->
+            <a data-toggle="collapse" data-parent="#accordion1" href="#collapse2" class="list-group-item list-group-item-info">
+<!--                『#{companyDetailBean.viewCompInfo.brand_nm}』　の業務メモ -->      <!--   加藤さん、渡辺さんからの指摘 実装は FIRなどから要望が上がった際  -->
+                業務メモ
+            </a> <!-- /a collapse collapse2 -->
+            <div id="collapse2" class="collapse in">
+              <div class="list-group-item">
+                  <h:form   id="SerchMemo_Condition" class="form-horizontal">
+                    <!-- 1段目 -->
+                    <div class="form-group">
+                        <!-- 日付 from -->
+                        <label  for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">日付：</label>
+                        <div class="col-xs-8 col-sm-4 controls">
+                            <h:inputText  class="form-control datepicker" id="date_from" title="YYYY/MM/DD形式で入力" value="#{companyDetailBean.dateFrom}"/>
+                            <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span> -->
+                        </div>
+                        <label  for="companyinfo-list-label"  class="col-xs-4 hidden-sm hidden-md hidden-lg control-label"><p class="text-center"/></label>
+                        <label  for="companyinfo-list-label"  class="hidden-xs col-sm-2 control-label"><p class="text-center">～</p></label>
+                        <div class="col-xs-8 col-sm-4 controls">   
+                            <h:inputText  class="form-control datepicker" id="date_to" title="YYYY/MM/DD形式で入力" value="#{companyDetailBean.dateTo}"/>
+                            <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="false"></span></span> -->
+                        </div>
+                   </div> <!-- /div form-group 1段目 -->
+                   <!-- 2段目 -->
+                   <div class="form-group">
+                        <!-- 担当者１ -->
+                        <label for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">記入者１：</label>
+                        <div class="col-xs-8 col-sm-4">
+                            <h:inputText  class="form-control" id="charge_In_person1" title="メモの記入者の氏名を入力" value="#{companyDetailBean.chargeInPerson1}"/>
+                        </div>
+                        <!-- 担当者２-->
+                        <label for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">記入者２：</label>
+                        <div class="col-xs-8 col-sm-4">
+                            <h:inputText  class="form-control" id="charge_In_person2" title="メモの記入者の氏名を入力" value="#{companyDetailBean.chargeInPerson2}"/>
+                        </div>
+                   </div> <!-- /div form-group 2段目 -->
+                   <!-- 3段目 -->
+                   <div class="form-group">
+                       <!--  タグ１-->
+<!--                        <label for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">タグ１：</label> -->
+                        <label for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">#{dispItemPropaty.lbl_tag1}：</label>
+                        <div class="col-xs-8 col-sm-4">
+                            <h:selectOneListbox size="1" value="#{companyDetailBean.memoTag1}" class="form-control">
+                                <f:selectItem itemValue="" itemLabel="選択して下さい" />
+                                <c:forEach var="obj" items="#{companyDetailBean.selMemoItems.memoTag1}" >
+                                    <f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}"/>
+                                </c:forEach>
+                            </h:selectOneListbox>
+                        </div> <!-- /div DLリストのやつ -->
+                        <!--  タグ２ -->
+<!--                        <label for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">タグ２：</label> -->
+                        <label for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">#{dispItemPropaty.lbl_tag2}：</label>
+                        <div class="col-xs-8 col-sm-4">
+                            <h:selectOneListbox size="1" value="#{companyDetailBean.memoTag2}" class="form-control">
+                                <f:selectItem itemValue="" itemLabel="選択して下さい" />
+                                <c:forEach var="obj" items="#{companyDetailBean.selMemoItems.memoTag2}" >
+                                    <f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}"/>
+                                </c:forEach>
+                            </h:selectOneListbox>
+                       </div> <!-- /div DLリストのやつ -->
+                    </div> <!-- /div form-group -->
+                   <!-- 4段目 -->
+                   <div class="form-group">
+                       <!--  タグ３ -->
+<!--                        <label for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">タグ３：</label> -->
+                        <label for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">#{dispItemPropaty.lbl_tag3}：</label>
+                        <div class="col-xs-8 col-sm-4">
+                            <h:selectOneListbox size="1" value="#{companyDetailBean.memoTag3}" class="form-control">
+                                <f:selectItem itemValue="" itemLabel="選択して下さい" />
+                                <c:forEach var="obj" items="#{companyDetailBean.selMemoItems.memoTag3}" >
+                                    <c:choose>
+                                        <c:when test="#{obj.value=='0200'}"><f:selectItem itemValue="" itemLabel="--------------------"/></c:when>
+                                        <c:when test="#{obj.value=='1950'}"><f:selectItem itemValue="" itemLabel="--------------------"/></c:when>
+                                    </c:choose>
+                                    <f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}"/>
+                                </c:forEach>
+                            </h:selectOneListbox>
+                        </div> <!-- /div DLリストのやつ -->
+                        <!--  ステータス-->
+                        <!-- <label for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">ステータス：</label> -->
+                        <!-- <div class="col-xs-8 col-sm-4"> -->
+                        <!--    <h:selectOneListbox size="1" value="#{companyDetailBean.memoStat}" class="form-control"> -->
+                        <!--        <f:selectItem itemValue="" itemLabel="選択して下さい" /> -->
+                        <!--        <c:forEach var="obj" items="#{companyDetailBean.selMemoItems.memoStatus}" > -->
+                        <!--            <f:selectItem itemValue="#{obj.value}" itemLabel="#{obj.label}"/> -->
+                        <!--        </c:forEach> -->
+                        <!--    </h:selectOneListbox> -->
+                        <!-- </div> -->  <!-- /div DLリストのやつ -->
+                   </div> <!-- /div form-group 4段目 -->
+                   <!-- 5段目 -->
+                   <div class="form-group">
+                       <!-- メールに付けた　タイトル -->
+                       <label for="companyinfo-list-label" class="col-xs-4 col-sm-2 control-label text-right">タイトル：</label>
+                        <div class="col-xs-8 col-sm-10">
+                            <h:inputText  class="form-control" id="memo_title" title="メモに付けたタイトルを入力" value="#{companyDetailBean.memoTitle}"/>
+                        </div>
+                   </div> <!-- /div form-group 5段目 -->
+                   <!-- 6段目 -->
+                   <div class="form-group">
+                       <!-- 検索ボタン -->
+                    <div class="col-xs-12 col-sm-12" align="right">
+                        <h:commandButton type="submit" class="btn btn-primary" value="検索" action="#{companyDetailBean.SerchMemo()}"/>
+                    </div>
+                   </div> <!-- /div form-group 6段目 -->
+                </h:form>
+                <!-- 検索条件と結果の仕切り -->
+                <hr></hr>
+                
+                <h:form  id="SerchComp_InfoList" class="table-responsive">
+
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <h:commandLink id ="backList" value="戻る  " action="#{companyDetailBean.backList()}" disabled="#{companyDetailBean.backList}"></h:commandLink>
+                            <h:outputText value="検索結果：#{companyDetailBean.nowListIndex} / #{companyDetailBean.dsp_SerchMemoNum} 件"/>
+                            <h:commandLink id ="nextList" value="  次へ" action="#{companyDetailBean.nextList()}" disabled="#{companyDetailBean.nextList}"></h:commandLink>
+                        </div>
+                    </div>
+                    <a name="MemoListTbl"/>
+                    <!-- <h:inputHidden  id="hidden" value="CompanyDetail"/> -->
+                    <h:dataTable class="col-xs-12 col-sm-12 table table-striped table-borderd table-hober" id="srhCompMemoTable" value="#{companyDetailBean.memoViewList}" var="memos">
+                            <h:column>
+                                <f:facet name="header">メモID</f:facet>
+                                    <h:commandLink action="#{companyDetailBean.goMemoDetail(memos.memoId,true)}"  value="#{memos.memoId}" ></h:commandLink>
+                            </h:column>
+                            <h:column><f:facet name="header">日付 from</f:facet><h:outputText  value="#{memos.startDate}"><f:convertDateTime pattern="yyyy/MM/dd" timeZone="JST"/></h:outputText></h:column>
+                            <h:column><f:facet name="header">日付 to</f:facet><h:outputText  value="#{memos.endDate}"><f:convertDateTime pattern="yyyy/MM/dd" timeZone="JST"/></h:outputText></h:column>
+                            <h:column><f:facet name="header">訪問部署</f:facet><h:outputText  value="#{memos.postNm}"/></h:column>
+                            <h:column><f:facet name="header">訪問先担当者</f:facet><h:outputText  value="#{memos.personNm}"/></h:column>
+                            <h:column><f:facet name="header">記入者</f:facet><h:outputText  value="#{memos.userId}"/></h:column>
+<!--                            <h:column><f:facet name="header">タグ１</f:facet><h:outputText  value="#{memos.tag1}"/></h:column>      -->
+<!--                            <h:column><f:facet name="header">タグ２</f:facet><h:outputText  value="#{memos.tag2}"/></h:column>      -->
+<!--                            <h:column><f:facet name="header">タグ３</f:facet><h:outputText  value="#{memos.tag3}"/></h:column>      -->
+                            <h:column><f:facet name="header">#{dispItemPropaty.lbl_tag1}</f:facet><h:outputText  value="#{memos.tag1}"/></h:column>
+                            <h:column><f:facet name="header">#{dispItemPropaty.lbl_tag2}</f:facet><h:outputText  value="#{memos.tag2}"/></h:column>
+                            <h:column><f:facet name="header">#{dispItemPropaty.lbl_tag3}</f:facet><h:outputText  value="#{memos.tag3}"/></h:column>
+                            <!-- <h:column><f:facet name="header">ステータス</f:facet><h:outputText  value="#{memos.status}"/></h:column> -->
+                            <h:column><f:facet name="header">タイトル</f:facet><h:outputText value="#{memos.title}"/></h:column>
+                            <h:column><f:facet name="header">最終更新日</f:facet><h:outputText value="#{memos.renewalDateTime}"><f:convertDateTime pattern="yyyy/MM/dd" timeZone="JST"/></h:outputText></h:column>
+                            <h:column><f:facet name="header">最終更新者</f:facet><h:outputText value="#{memos.renewalUser}"/></h:column>
+                            <h:column><f:facet name="header">メモ（見出し）</f:facet><h:outputText value="#{memos.memoSt}"/></h:column>
+
+                         </h:dataTable>
+                </h:form>
+                <h:form  id="SerchComp_func" class="form-horizontal">
+                    <!-- 新規追加　 ボタン -->
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12" align="right">
+                            <h:commandButton type="submit" class="btn btn-success" value="新規" action="#{companyDetailBean.goNewMemo()}"/>
+                        </div>
+                    </div> <!-- /form-group -->
+                </h:form>
+              </div> <!-- /div  list-group-item -->
+            </div> <!-- /div id=collapse2 -->
+          </div> <!-- /div list-group   accordion1 -->
+        <h:form  id="companyDetail_back" class="form-horizontal">
+            <!-- 戻る ボタン -->
+            <div class="form-group">
+                <div class="col-xs-4"><a href="#accordion1" >ページTopへ</a></div>
+                <div class="col-xs-4"><a href="#MemoListTbl" >リストTopへ</a></div>
+                <!--<div class="col-xs-4" align="right"></div>-->
+                <div class="col-xs-4" align="right">
+                    <h:commandButton type="submit" class="btn btn-default" value="戻る" action="SerchComp.xhtml"/>
+                </div>
+            </div> <!-- /form-group -->
+        </h:form>
+        </div>
+        
+        <!-- 画面サイズごとに表示方法を変更 -->
+        <script>
+            var elem = document.getElementById("info");
+            var windowSm = 640;
+            
+            //初期画面処理
+            info();
+            
+             //リサイズ後処理
+            var timer = false;
+            $(window).resize(function() {
+                if (timer !== false) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(function() {
+                    info();
+                }, 200);
+            });
+            
+            //表示方法
+            function info(){
+                var windowWidth = $(window).width();
+                if(windowWidth >= windowSm){
+                    elem.innerHTML = '<div style="width: 680px; height: 720px; margin: 10px auto; overflow: hidden;" class="form-group">'+
+                                     '<iframe style="width: 1200px; height: 1200px; margin-left: -125px; margin-top: -280px;" src="https://web.fisco.jp/FiscoPFApl/CompanyTopWeb?brndCd=#{companyDetailBean.viewCompInfo.brand_cd}" scrolling="no" frameborder="0">'+      
+                                     'iframeタグを使用しています。' +
+                                     '</iframe></div>';
+                }else{
+                    elem.innerHTML = '<div style="width: 310px; height: 720px; margin: 10px auto; overflow: hidden;" class="form-group">'+
+                                     '<iframe style="width: 1200px; height: 1200px; margin-left: -125px; margin-top: -280px;" src="https://web.fisco.jp/FiscoPFApl/CompanyTopWeb?brndCd=#{companyDetailBean.viewCompInfo.brand_cd}" scrolling="no" frameborder="0">'+      
+                                     'iframeタグを使用しています。' +
+                                     '</iframe></div>'+
+                                     '<div style="width: 310px; height: 720px; margin: 10px auto; overflow: hidden;" class="form-group">'+
+                                     '<iframe style="width: 1200px; height: 1200px; margin-left: -490px; margin-top: -280px;" src="https://web.fisco.jp/FiscoPFApl/CompanyTopWeb?brndCd=#{companyDetailBean.viewCompInfo.brand_cd}" scrolling="no" frameborder="0">'+      
+                                     'iframeタグを使用しています。' +
+                                     '</iframe></div>';
+                }
+            }
+        </script>
+
+    </h:body>
+</html>
+
